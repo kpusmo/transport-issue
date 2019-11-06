@@ -1,5 +1,5 @@
 use actix_cors::Cors;
-use actix_web::{App, HttpServer, http};
+use actix_web::{App, http, HttpServer};
 use listenfd::ListenFd;
 
 mod app;
@@ -7,7 +7,6 @@ mod error;
 
 fn main() {
     let mut listenfd = ListenFd::from_env();
-    let data = app::state();
     let mut server = HttpServer::new(move || {
         App::new().wrap(Cors::new()
             .allowed_origin("http://transport.local.net:8888")
@@ -16,7 +15,7 @@ fn main() {
             .allowed_header(http::header::CONTENT_TYPE)
             .max_age(3600)
         )
-            .register_data(data.clone()).configure(app::config)
+            .configure(app::config)
     });
     server = if let Some(l) = listenfd.take_tcp_listener(0).unwrap() {
         server.listen(l).unwrap()

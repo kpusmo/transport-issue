@@ -5,7 +5,7 @@ use cycle_finder::CycleFinder;
 use dto::CalculateSolutionDto;
 use dual_variables::DualVariables;
 use cost::{CostMap};
-use result::CalculationResult;
+use response::SolutionResponse;
 
 use crate::error::Error;
 
@@ -14,7 +14,7 @@ mod dual_variables;
 mod base_result_min_nodes;
 mod dto;
 mod cost;
-mod result;
+mod response;
 
 type UnsignedMap = Vec<Vec<u32>>;
 type SignedMap = Vec<Vec<i32>>;
@@ -30,7 +30,7 @@ pub fn index(mut dto: web::Json<CalculateSolutionDto>) -> impl Responder {
     HttpResponse::Ok().json(history)
 }
 
-fn optimize(base: UnsignedMap, costs: &CostMap) -> Result<Vec<CalculationResult>, String> {
+fn optimize(base: UnsignedMap, costs: &CostMap) -> Result<Vec<SolutionResponse>, String> {
     let mut result = vec![];
     let mut last_solution = base;
     loop {
@@ -41,7 +41,7 @@ fn optimize(base: UnsignedMap, costs: &CostMap) -> Result<Vec<CalculationResult>
         let min_delta_coords = min_element_coords(&delta);
         let min_delta_value = delta[min_delta_coords.0][min_delta_coords.1];
 
-        result.push(CalculationResult {
+        result.push(SolutionResponse {
             solution: last_solution.clone(),
             cost,
             delta,

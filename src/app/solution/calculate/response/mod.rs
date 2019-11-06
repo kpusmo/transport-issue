@@ -3,7 +3,7 @@ use crate::app::solution::calculate::dual_variables::DualVariables;
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize)]
-pub struct CalculationResult {
+pub struct SolutionResponse {
     pub solution: UnsignedMap,
     pub delta: SignedMap,
     pub dual_variables: DualVariables,
