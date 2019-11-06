@@ -1,12 +1,12 @@
 use std::ops::{Index, IndexMut};
 
 use crate::app::solution::calculate::dto::CalculateSolutionDto;
-use crate::app::solution::calculate::UnsignedMap;
+use crate::app::solution::calculate::Vec2d_i32;
 
 #[derive(Clone, Copy, Debug)]
 pub struct Cost {
-    pub value: u32,
-    pub virtual_value: u32,
+    pub value: i32,
+    pub virtual_value: i32,
 }
 
 #[derive(Default, Debug)]
@@ -29,8 +29,8 @@ impl CostMap {
             }
         }
 
-        let supply: u32 = dto.supply.iter().sum();
-        let demand: u32 = dto.demand.iter().sum();
+        let supply: i32 = dto.supply.iter().sum();
+        let demand: i32 = dto.demand.iter().sum();
         if supply == demand {
             return instance;
         }
@@ -89,7 +89,7 @@ impl IndexMut<usize> for CostMap {
     }
 }
 
-fn max_element(costs: &UnsignedMap) -> u32 {
+fn max_element(costs: &Vec2d_i32) -> i32 {
     let mut min = None;
     for row in costs.iter() {
         for item in row.iter() {

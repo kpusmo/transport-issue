@@ -1,11 +1,11 @@
 use std::cmp::min;
-use crate::app::solution::calculate::UnsignedMap;
+use crate::app::solution::calculate::Vec2d_i32;
 use crate::app::solution::calculate::Coords;
 use crate::app::solution::calculate::dto::CalculateSolutionDto;
 use crate::app::solution::calculate::cost::CostMap;
 
-pub fn base_min(dto: &mut CalculateSolutionDto, costs: &CostMap) -> UnsignedMap {
-    let mut solution: Vec<Vec<Option<u32>>> = vec![vec![None; costs[0].len()]; costs.len()];
+pub fn base_min(dto: &mut CalculateSolutionDto, costs: &CostMap) -> Vec2d_i32 {
+    let mut solution: Vec<Vec<Option<i32>>> = vec![vec![None; costs[0].len()]; costs.len()];
     let size = solution[0].len() * solution.len();
     let mut filled_count = 0;
     while filled_count < size {
@@ -27,7 +27,7 @@ pub fn base_min(dto: &mut CalculateSolutionDto, costs: &CostMap) -> UnsignedMap 
     result
 }
 
-fn fill_zeros(vec: &mut Vec<Vec<Option<u32>>>, indices: &Coords, column: bool) -> usize {
+fn fill_zeros(vec: &mut Vec<Vec<Option<i32>>>, indices: &Coords, column: bool) -> usize {
     let mut result = 0;
     if column {
         for i in 0..vec[indices.0].len() {

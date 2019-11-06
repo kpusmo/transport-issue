@@ -1,9 +1,9 @@
 use serde::{Deserialize};
-use crate::app::solution::calculate::UnsignedMap;
+use crate::app::solution::calculate::Vec2d_i32;
 
 #[derive(Deserialize, Debug)]
 pub struct CalculateSolutionDto {
-    pub supply: Vec<u32>,
-    pub demand: Vec<u32>,
-    pub costs: UnsignedMap,
+    pub supply: Vec<i32>,
+    pub demand: Vec<i32>,
+    pub costs: Vec2d_i32,
 }

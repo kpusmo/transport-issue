@@ -16,8 +16,7 @@ mod dto;
 mod cost;
 mod response;
 
-type UnsignedMap = Vec<Vec<u32>>;
-type SignedMap = Vec<Vec<i32>>;
+type Vec2d_i32 = Vec<Vec<i32>>;
 type Coords = (usize, usize);
 
 pub fn index(mut dto: web::Json<CalculateSolutionDto>) -> impl Responder {
@@ -30,7 +29,7 @@ pub fn index(mut dto: web::Json<CalculateSolutionDto>) -> impl Responder {
     HttpResponse::Ok().json(history)
 }
 
-fn optimize(base: UnsignedMap, costs: &CostMap) -> Result<Vec<SolutionResponse>, String> {
+fn optimize(base: Vec2d_i32, costs: &CostMap) -> Result<Vec<SolutionResponse>, String> {
     let mut result = vec![];
     let mut last_solution = base;
     loop {
@@ -66,7 +65,7 @@ fn optimize(base: UnsignedMap, costs: &CostMap) -> Result<Vec<SolutionResponse>,
     }
 }
 
-fn min_in_cycle(cycle: &Cycle, map: &UnsignedMap) -> u32 {
+fn min_in_cycle(cycle: &Cycle, map: &Vec2d_i32) -> i32 {
     let mut diff = None;
     for (i, position) in cycle.iter().enumerate() {
         // minimum of negative cycle part - odd elements
@@ -96,7 +95,7 @@ fn min_element_coords<T: Ord + Copy>(vec: &Vec<Vec<T>>) -> Coords {
     result
 }
 
-fn calculate_deltas(costs: &CostMap, dual_variables: &DualVariables) -> SignedMap {
+fn calculate_deltas(costs: &CostMap, dual_variables: &DualVariables) -> Vec2d_i32 {
     let mut delta = vec![vec![0; costs[0].len()]; costs.len()];
     for (i, row) in costs.iter().enumerate() {
         for (j, it) in row.iter().enumerate() {
@@ -107,7 +106,7 @@ fn calculate_deltas(costs: &CostMap, dual_variables: &DualVariables) -> SignedMa
     delta
 }
 
-fn calculate_cost(solution: &UnsignedMap, costs: &CostMap) -> u32 {
+fn calculate_cost(solution: &Vec2d_i32, costs: &CostMap) -> i32 {
     let mut result = 0;
     for i in 0..solution.len() {
         for j in 0..solution[i].len() {

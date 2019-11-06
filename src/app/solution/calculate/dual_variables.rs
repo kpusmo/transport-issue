@@ -1,9 +1,9 @@
-use crate::app::solution::calculate::UnsignedMap;
+use crate::app::solution::calculate::Vec2d_i32;
 use crate::app::solution::calculate::cost::CostMap;
 
 pub type DualVariables = Vec<Vec<Option<i32>>>;
 
-pub fn calculate_dual_variables(base: &UnsignedMap, costs: &CostMap) -> DualVariables {
+pub fn calculate_dual_variables(base: &Vec2d_i32, costs: &CostMap) -> DualVariables {
     let mut dual_variables: DualVariables = vec![vec![None; base.len()], vec![None; base[0].len()]];
     let node_count = get_node_count(base);
     let dual_variables_count = dual_variables[0].len() + dual_variables[1].len();
@@ -21,7 +21,7 @@ pub fn calculate_dual_variables(base: &UnsignedMap, costs: &CostMap) -> DualVari
     dual_variables
 }
 
-fn calculate_variables_for(variables: &mut DualVariables, solution: &UnsignedMap, costs: &CostMap, i: usize, j: usize) {
+fn calculate_variables_for(variables: &mut DualVariables, solution: &Vec2d_i32, costs: &CostMap, i: usize, j: usize) {
     if i == 0 {
         for k in 0..solution[j].len() {
             if solution[j][k] != 0 && variables[1][k].is_none() {
@@ -39,7 +39,7 @@ fn calculate_variables_for(variables: &mut DualVariables, solution: &UnsignedMap
     }
 }
 
-fn get_node_count(base: &UnsignedMap) -> usize {
+fn get_node_count(base: &Vec2d_i32) -> usize {
     let mut result = 0;
     for row in base.iter() {
         for it in row.iter() {

@@ -1,4 +1,4 @@
-use crate::app::solution::calculate::{Coords, UnsignedMap};
+use crate::app::solution::calculate::{Coords, Vec2d_i32};
 
 pub type Cycle = Vec<Coords>;
 
@@ -6,12 +6,12 @@ pub struct CycleFinder<'a> {
     start_position: (usize, usize),
     current_position: (usize, usize),
     horizontal: bool,
-    map: &'a UnsignedMap,
+    map: &'a Vec2d_i32,
 }
 
 // interface
 impl<'a> CycleFinder<'a> {
-    pub fn new(start_position: (usize, usize), map: &'a UnsignedMap) -> CycleFinder {
+    pub fn new(start_position: (usize, usize), map: &'a Vec2d_i32) -> CycleFinder {
         CycleFinder {
             start_position,
             current_position: start_position,

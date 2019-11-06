@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 #[derive(Serialize, Deserialize)]
 pub struct Error {
     message: String,
-    code: u32,
+    code: i32,
 }
 
 impl Error {
